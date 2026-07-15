@@ -25,7 +25,7 @@ Every skill lives in its own top-level folder, named after the skill, with the s
 
 - **`playwright-project-setup`** — scaffolds a JavaScript Playwright project preconfigured for both
   UI and API testing (Page Object Model, `tests/ui/` + `tests/api/`, ESLint + Prettier, dotenv).
-- **`playwright-github-actions`** — (in progress) scaffolds a GitHub Actions workflow to run the
+- **`playwright-github-actions`** — scaffolds a GitHub Actions workflow to run the
   tests produced by `playwright-project-setup`.
 
 ## Installing a skill from this repo
