@@ -7,6 +7,12 @@ description: Scaffolds a new Playwright project (JavaScript) — installs Playwr
 
 Scaffolds a consistent, reusable Playwright project **skeleton** for JavaScript projects. This skill installs tooling and creates folders/config files — it does not explore any target application, does not write app-specific tests, and does not make architectural decisions about auth or environments. Always produces the same structure so every project built with this skill looks and behaves the same way.
 
+## Elicitation (only these, nothing else)
+- Target directory
+- JS project
+- UI + API, or UI only (skip API scaffold entirely if UI only — do not generate then delete)
+- Local dev server or deployed URL for BASE_URL (do not inspect the target app to determine this — ask the user directly, or leave .env.example blank for them to fill in)
+
 ## Out of scope — do not do these
 
 This skill is installation + folder structure only. It must NOT:
@@ -16,6 +22,7 @@ This skill is installation + folder structure only. It must NOT:
 - Create auth setup files (e.g. `auth.setup.ts`) with real credentials or flows
 - Copy any rules/docs files into the target project
 - Ask elicitation questions about auth roles, environments (local/staging/prod), or CI
+- Do not read, grep, cat, or otherwise inspect any file belonging to the target application, even to check feasibility of the generic scaffold. If the generic scaffold might not fit, ask the user — don't investigate to find out.
 
 If the user's request touches any of the above, tell them that belongs to a separate skill and stop after completing only the installation/structure portion.
 
