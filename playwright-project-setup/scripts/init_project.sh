@@ -12,7 +12,12 @@ SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ASSETS_DIR="$SKILL_DIR/assets"
 
 TARGET_DIR="${1:-}"
-NO_INSTALL="${2:-}"
+NO_INSTALL="false"
+for arg in "$@"; do
+  if [ "$arg" = "--no-install" ]; then
+    NO_INSTALL="true"
+  fi
+done
 
 if [ -z "$TARGET_DIR" ]; then
   echo "Usage: $0 <target-dir> [--no-install]"
@@ -75,7 +80,7 @@ fi
 
 echo "==> Structure ready."
 
-if [ "$NO_INSTALL" = "--no-install" ]; then
+if [ "$NO_INSTALL" = "true" ]; then
   echo "==> Skipping npm install (--no-install passed)."
   echo "    Run manually: npm install --save-dev @playwright/test dotenv eslint eslint-plugin-playwright eslint-config-prettier prettier && npx playwright install --with-deps"
   exit 0
@@ -91,3 +96,7 @@ echo "==> Done. Next steps:"
 echo "    1. cp .env.example .env   (fill in real values)"
 echo "    2. npm run test:ui        (run UI tests)"
 echo "    3. npm run test:api       (run API tests)"
+echo ""
+echo "    Note: this only scaffolds structure — example.spec.js files are"
+echo "    placeholders. Writing real tests against a specific app is a"
+echo "    separate skill."
