@@ -10,8 +10,28 @@ Scaffolds a consistent, reusable Playwright project **skeleton** for JavaScript 
 ## Elicitation (only these, nothing else)
 - Target directory
 - JS project
-- UI + API, or UI only (skip API scaffold entirely if UI only — do not generate then delete)
+- UI + API, or UI only
 - Local dev server or deployed URL for BASE_URL (do not inspect the target app to determine this — ask the user directly, or leave .env.example blank for them to fill in)
+
+## UI-only handling
+
+The scaffold script always generates both UI and API structure — it has no
+`--ui-only` flag. If the user chooses "UI only":
+
+1. Run the script normally (it will create both).
+2. Then remove the API-specific pieces:
+   - `tests/api/` (entire directory)
+   - `utils/apiClient.js`, and `utils/` itself if now empty
+   - The `api` project block in `playwright.config.js`
+   - The `test:api` script in `package.json`
+   - Any `API_BASE_URL`/API-token lines in `.env.example`
+3. Grep the remaining config files (`playwright.config.js`, `package.json`,
+   `eslint.config.js`) for lingering `api` references and remove any found.
+4. Verify the result with `npx playwright test --list` and confirm only UI
+   tests/projects resolve — don't just trust that the deletions succeeded.
+
+This is expected, standard behavior for a "UI only" choice — not a
+deviation to flag or ask about.
 
 ## Out of scope — do not do these
 
@@ -21,7 +41,8 @@ This skill is installation + folder structure only. It must NOT:
 - Write test files containing real assertions or app-specific logic — example/placeholder files only, with generic TODO content
 - Create auth setup files (e.g. `auth.setup.ts`) with real credentials or flows
 - Copy any rules/docs files into the target project
-- Ask elicitation questions about auth roles, environments (local/staging/prod), or CI
+- Ask elicitation questions about auth roles or CI
+- Ask about environments beyond the single BASE_URL question already listed in Elicitation (e.g. don't ask about staging, multiple environments, or environment-specific config — that belongs to a separate skill)
 - Do not read, grep, cat, or otherwise inspect any file belonging to the target application, even to check feasibility of the generic scaffold. If the generic scaffold might not fit, ask the user — don't investigate to find out.
 
 If the user's request touches any of the above, tell them that belongs to a separate skill and stop after completing only the installation/structure portion.
@@ -40,9 +61,12 @@ project-root/
 ├── playwright.config.js         # 3 projects: ui-chromium, ui-firefox, api
 ├── .eslintrc.json               # eslint-plugin-playwright + prettier integration
 ├── .prettierrc
-├── .env.example                 # BASE_URL / API_BASE_URL template — placeholder values only
+├── .env.example                 # BASE_URL template — real value if the user gave one, otherwise a blank placeholder for them to fill in
 ├── .gitignore
 └── package.json                 # test/lint/format scripts (only created if missing)
+
+**Note:** the tree above shows the default (UI + API) output. If the user
+chose UI only, see "UI-only handling" above for what gets removed.
 
 **Design choices baked in** (don't relitigate these unless the user asks):
 - API tests use Playwright's built-in `request` fixture — no axios/supertest dependency needed.
@@ -51,7 +75,7 @@ project-root/
 
 ## How to run it
 
-1. Ask the user for the target directory if it's not obvious from context (current project root vs. a new folder).
+1. Ask the applicable Elicitation questions above (target directory, UI+API vs UI only, BASE_URL source) before running anything. "JS project" is fixed, not a question — no need to ask about it.
 2. Run the setup script:
 
 ```bash
