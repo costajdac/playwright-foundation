@@ -9,7 +9,21 @@ Scaffolds a `.github/workflows/playwright.yml` that runs on every push and pull 
 
 ## Prerequisite
 
-This skill assumes the target repo already has a `package.json` with `test:ui` and `test:api` scripts (produced by `playwright-project-setup`). If it doesn't, stop and tell the user to run that skill first.
+This skill assumes the target repo already has a `package.json` with `test:ui` and `test:api` scripts (produced by `playwright-project-setup`). If `test:ui` is missing, stop. `test:api` is optional — see UI-only handling below.
+
+## UI-only handling
+
+The workflow template always includes both `ui-tests` and `api-tests` jobs.
+If the target project's `package.json` has no `test:api` script (e.g. it was
+scaffolded UI-only via playwright-project-setup):
+
+1. Copy the template as normal.
+2. Remove the entire `api-tests` job block from the generated
+   `.github/workflows/playwright.yml`.
+3. Leave `ui-tests` untouched.
+
+This is expected, standard behavior — not a reason to stop or ask.
+Only stop (per the Prerequisite section) if `test:ui` is also missing.
 
 ## What it sets up
 
