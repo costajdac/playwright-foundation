@@ -76,9 +76,15 @@ rather than trying to enumerate every possible test case in one shot.
 4. Analyze the diff yourself (see "How to prioritize" and "How to avoid
    duplicates" below). Do not just summarize the diff — reason about what a
    real user or the business would actually be affected by.
-5. Write the test plan using the template in `assets/test-plan-template.md`,
+5. Before writing, resolve every `{{...}}` placeholder in the template —
+   including conditional blocks like `{{#IF_DIFF_MODE}}...{{/IF_DIFF_MODE}}`
+   (keep the block's content and drop the markers if the condition applies,
+   remove the whole block if it doesn't) and `{{IF_NONE_OMITTED: "..."}}`
+   (replace with the quoted text if true, delete if false). The written
+   file must contain no literal `{{` or `}}` characters anywhere.
+6. Write the test plan using the template in `assets/test-plan-template.md`,
    to the output location confirmed in elicitation.
-6. Tell the user where the file was written and give a one-line summary
+7. Tell the user where the file was written and give a one-line summary
    (e.g. "3 P0, 2 P1, 1 P2 — covering the new admin approval flow and the
    removed legacy field"). Don't paste the whole plan back into the
    conversation if it's already been written to a file.
