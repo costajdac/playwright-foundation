@@ -36,8 +36,12 @@ and what's already covered — then writes the plan directly.
   Filename itself: `<branch-name>-<date>-test-plan.md`, or
   `baseline-<date>-test-plan.md` for a baseline run.
 - Maximum number of test cases to include (default: 12 total). Don't ask
-  this as an open question — state the default and let the user override it
-  if they want more or fewer.
+  this as an open question, but you MUST explicitly say it out loud as part
+  of your response before running the script/analysis — e.g. "I'll cap this
+  at 12 test cases (the default) — let me know if you want more or fewer
+  before I continue." Do not silently apply the default without stating it;
+  the user should never have to notice the cap only after reading the
+  finished plan.
 
 Do not ask anything beyond these five. If the user's request already answers
 one (e.g. "compare against develop"), don't re-ask it.
@@ -139,6 +143,17 @@ legitimate candidate test cases than the limit allows:
 If the number of P0 cases alone exceeds the limit, say so explicitly rather
 than quietly cutting P0s — that's a signal the branch may be too large or
 risky to review as one unit, worth surfacing to the user directly.
+
+## Re-running against unchanged code
+
+If a baseline run finds the app is unchanged since the last baseline plan
+(same commit, or the compared branch has no new diff), tell the user
+explicitly before reusing prior analysis: "The app hasn't changed since the
+last baseline plan on [date] — I'll reuse that analysis rather than
+re-deriving it from scratch. Say so if you'd like a fresh pass instead."
+Never silently reuse a prior run's conclusions without surfacing that
+choice — the user should get the option to force a fresh analysis, not
+just receive an efficiency shortcut they didn't ask for.
 
 ## How to avoid duplicates
 
