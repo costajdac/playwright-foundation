@@ -22,9 +22,19 @@ and what's already covered — then writes the plan directly.
 - Where existing automated tests live (default: look for `**/*.spec.js` under the repo; ask if none found)
 - Whether a prior test plan file already exists to check against for
   duplicates (ask for its path, or confirm there isn't one yet)
-- Output file name/location (default:
-  `test-plans/<branch-name>-<date>-test-plan.md`, or
-  `test-plans/baseline-<date>-test-plan.md` for a baseline run)
+- Output file name/location. Don't hardcode a folder name — detect it:
+  1. Look for an existing Playwright config (`playwright.config.js` or
+     `.ts`) anywhere in the repo. If found, place test plans in a
+     `test-plans/` folder next to it (e.g. if config is at
+     `e2e/playwright.config.js`, use `e2e/test-plans/`; if config is at
+     repo root, use `test-plans/` at repo root).
+  2. If no config is found, look for a folder matching common testing
+     conventions (`e2e/`, `e2e-testing/`, `tests/`, `playwright/`,
+     `cypress/`, `__tests__/`) and ask the user to confirm before using it.
+  3. If neither exists, ask the user directly where test plans should go —
+     don't guess a name.
+  Filename itself: `<branch-name>-<date>-test-plan.md`, or
+  `baseline-<date>-test-plan.md` for a baseline run.
 - Maximum number of test cases to include (default: 12 total). Don't ask
   this as an open question — state the default and let the user override it
   if they want more or fewer.
@@ -134,9 +144,10 @@ risky to review as one unit, worth surfacing to the user directly.
 
 Before writing a new test case, check it against:
 1. Existing automated test titles/descriptions from the script's output
-2. Every prior test-plan file under `test-plans/`, not just one — scan the
-   whole directory for overlapping coverage, since plans are now generated
-   per branch/run rather than accumulated into a single file
+2. Every prior test-plan file under the test-plans folder confirmed/detected
+   in this run's elicitation, not just one — scan the whole directory for
+   overlapping coverage, since plans are now generated per branch/run
+   rather than accumulated into a single file
 
 If a change is already covered by an existing automated test that still
 applies (i.e. the change doesn't break that test's assumptions), don't
