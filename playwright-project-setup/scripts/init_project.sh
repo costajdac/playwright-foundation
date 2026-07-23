@@ -30,7 +30,7 @@ cd "$TARGET_DIR"
 echo "==> Scaffolding Playwright UI + API project in: $TARGET_DIR"
 
 # --- Folder structure ---
-mkdir -p tests/ui tests/api pages utils
+mkdir -p tests/ui tests/api pages utils fixtures
 
 # --- Copy templates (skip files that already exist, to avoid clobbering) ---
 copy_if_absent() {
@@ -54,6 +54,7 @@ copy_if_absent "$ASSETS_DIR/pages/HomePage.js"          "pages/HomePage.js"
 copy_if_absent "$ASSETS_DIR/utils/apiClient.js"         "utils/apiClient.js"
 copy_if_absent "$ASSETS_DIR/tests/ui/example.spec.js"   "tests/ui/example.spec.js"
 copy_if_absent "$ASSETS_DIR/tests/api/example.spec.js"  "tests/api/example.spec.js"
+copy_if_absent "$ASSETS_DIR/fixtures/index.js"          "fixtures/index.js"
 
 # --- package.json: create if missing, otherwise leave alone ---
 if [ ! -f "package.json" ]; then

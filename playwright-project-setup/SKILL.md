@@ -53,6 +53,8 @@ project-root/
 ├── tests/
 │   ├── ui/example.spec.js       # placeholder UI test — generic, no real app logic
 │   └── api/example.spec.js      # placeholder API test — generic, no real app logic
+├── fixtures/
+│   └── index.js                 # placeholder fixtures file — generic, no real app logic
 ├── pages/
 │   ├── BasePage.js              # empty base class, ready for extension
 │   └── HomePage.js              # empty example page object (structure only, no real selectors)
@@ -64,6 +66,7 @@ project-root/
 ├── .env.example                 # BASE_URL template — real value if the user gave one, otherwise a blank placeholder for them to fill in
 ├── .gitignore
 └── package.json                 # test/lint/format scripts (only created if missing)
+
 
 **Note:** the tree above shows the default (UI + API) output. If the user
 chose UI only, see "UI-only handling" above for what gets removed.

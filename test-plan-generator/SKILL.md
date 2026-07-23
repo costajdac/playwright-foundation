@@ -98,10 +98,44 @@ rather than trying to enumerate every possible test case in one shot.
    file must contain no literal `{{` or `}}` characters anywhere.
 6. Write the test plan using the template in `assets/test-plan-template.md`,
    to the output location confirmed in elicitation.
-7. Tell the user where the file was written and give a one-line summary
-   (e.g. "3 P0, 2 P1, 1 P2 — covering the new admin approval flow and the
-   removed legacy field"). Don't paste the whole plan back into the
-   conversation if it's already been written to a file.
+7. Also write a machine-readable JSON version alongside the markdown file,
+   same base filename with a `.json` extension (e.g.
+   `baseline-2026-07-23-test-plan.md` and
+   `baseline-2026-07-23-test-plan.json`). This is for import into external
+   tools (Jira, Xray, Zephyr, etc.) without manual field mapping. Schema:
+
+```json
+   {
+     "generatedDate": "2026-07-23",
+     "mode": "baseline",
+     "branch": null,
+     "baseBranch": null,
+     "maxCases": 12,
+     "testCases": [
+       {
+         "id": "P0-1",
+         "priority": "P0",
+         "title": "string",
+         "description": "string",
+         "steps": ["string", "string"],
+         "expectedResult": "string",
+         "automated": false,
+         "automatedSpecFile": null
+       }
+     ],
+     "alreadyCovered": ["string"],
+     "notIncluded": [
+       { "priority": "P2", "title": "string" }
+     ],
+     "unclearImpact": ["string"]
+   }
+```
+
+   For diff-mode runs, populate `branch`/`baseBranch`; set `mode: "diff"`.
+   Field names are fixed — don't rename or nest differently between runs,
+   since the whole point is a stable schema an external tool can map once
+   and reuse.
+8. Tell the user where the file(s) were written and give a one-line summary
 
 ## How to prioritize
 
