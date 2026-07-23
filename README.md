@@ -93,4 +93,7 @@ similar description can fire instead of the one you meant.
   real repo (DS-Directory).
 - `playwright-github-actions` — done, tested end-to-end in CI against a
   real repo, including a Firebase Emulator-backed test run.
-- `test-plan-generator` — built, pending first real-world test run.
+- `test-plan-generator` — done, tested across three runs against a real
+  repo (DS-Directory) in baseline mode: verified correct folder-detection
+  for output location, the test-case cap, duplicate-avoidance, and
+  re-run/overwrite handling.

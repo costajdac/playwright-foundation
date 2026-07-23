@@ -155,6 +155,17 @@ Never silently reuse a prior run's conclusions without surfacing that
 choice — the user should get the option to force a fresh analysis, not
 just receive an efficiency shortcut they didn't ask for.
 
+## When "overwrite" would produce identical content
+
+If the user chooses to overwrite an existing same-day file and the new
+content would be byte-for-byte identical to what's already there, say so
+explicitly rather than silently deciding whether to rewrite or skip — e.g.
+"The content would be identical to the existing file — I'll leave it
+as-is rather than rewriting, unless you'd rather I overwrite anyway." Don't
+silently choose either option; let the user confirm which they actually
+want, since "overwrite" and "skip because it's the same" are different
+outcomes even when the file contents end up equivalent.
+
 ## How to avoid duplicates
 
 Before writing a new test case, check it against:
